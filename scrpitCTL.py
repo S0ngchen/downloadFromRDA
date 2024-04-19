@@ -40,6 +40,6 @@ def modify_script_line(script_path, line_number, new_content):
         print("operation error:", e)
 
 
-run_and_monitor(r"E:\analized data\rda-download.py")
+run_and_monitor(r"EXAMPLE: ./rda-download.py")
 
 
