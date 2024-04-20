@@ -5,7 +5,7 @@ After you save the file, don't forget to make it executable
 i.e. - "chmod 755 <name_of_script>"
 """
 
-url = 'https://data.rda.ucar.edu/ds083.2/grib2/'
+url = 'https://data.rda.ucar.edu/ds083.2/grib2/'    # EXAMPLE url
 import sys, os
 from urllib.request import build_opener
 from datetime import datetime, timedelta
@@ -14,7 +14,7 @@ import urllib
 import random
 
 
-start_time = datetime.strptime('20131205_06_00', '%Y%m%d_%H_%M')
+start_time = datetime.strptime('YYYYMMDD_HH_MM', '%Y%m%d_%H_%M')    # start time, format: YYYYMMDD_HH_MM
 end_time = datetime(2023, 12, 31, 0, 0, 0)
 time_list = (start_time + timedelta(hours=6*i) for i in range(int((end_time - start_time).total_seconds()) // (3600*6 + 1)))
 time_list_formatted = (time.strftime('%Y%m%d_%H_%M') for time in time_list)
