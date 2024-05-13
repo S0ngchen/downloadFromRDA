@@ -17,23 +17,23 @@ def run_and_monitor(script_path):
                 break
         if not flag:
             print('variable name not found, please do not change the variable name in download script.')
-        patten = r"(['\"])(\d+)(['\"])"
-        date = re.findall(patten, line)
-        date = date[0][1]
-        output = 'done'
+        pattenDate = "(['\"])(\d_?)+(['\"])"
+        pattenFormat = "['\"](%[MmYyDdHh]_?)+['\"]"
+        date = re.search(pattenDate, line).group()
+        formatStr = re.search(pattenFormat, line).group()
+        output = 'done!'
 
-        
+
         while True:
             return_code = process.poll()
             output = process.stdout.readline().strip()
             if output != '':
-                print(1, output)
-                date = output[16:30]
-                newC = f"start_time = datetime.strptime('{date}', '%Y%m%d_%H_%M')"    # Due to the different file you want to download, the date here may need to be changed
-                modify_script_line(script_path, lineNumber, newC)        # `17` here means the time needed to be rewritten is on line 17
+                dateFormat = datetime_to_regex(formatStr)
+                date = re.search(dateFormat, output).group()
+                newC = f"start_time = datetime.strptime({date}, {formatStr})"
+                modify_script_line(script_path, lineNumber, newC)
             print(output)
             if return_code is not None:
-                print(date)
                 process = subprocess.Popen(['python', script_path], stdout=subprocess.PIPE, text=True)
             time.sleep(0.1)
     except subprocess.CalledProcessError as e:
@@ -54,6 +54,20 @@ def modify_script_line(script_path, line_number, new_content):
         print("operation error:", e)
 
 
-run_and_monitor(r"EXAMPLE\rda-download.py")         # EXAMPLE adress of rda-download.py
+def datetime_to_regex(format_str):
+    regex_pattern = format_str.replace("%Y", "\d{4}")
+    regex_pattern = regex_pattern.replace("%m", "\d{2}")
+    regex_pattern = regex_pattern.replace("%d", "\d{2}")
+    regex_pattern = regex_pattern.replace("%H", "\d{2}")
+    regex_pattern = regex_pattern.replace("%M", "\d{2}")
+    regex_pattern = regex_pattern.replace("%S", "\d{2}")
+    if regex_pattern.startswith('"') and regex_pattern.endswith('"'):
+        return regex_pattern[1:-1]
+    elif regex_pattern.startswith("'") and regex_pattern.endswith("'"):
+        return regex_pattern[1:-1]
+    return regex_pattern
+
+
+run_and_monitor(r"rda-download.py")         # address of rda-download.py
 
 
