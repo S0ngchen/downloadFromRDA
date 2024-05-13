@@ -8,13 +8,15 @@ def run_and_monitor(script_path):
         with open(script_path, 'r') as file:
             lines = file.readlines()
         flag = False
-        for line in lines:
+        for lineNumber in range(len(lines)):
+            line = lines[lineNumber]
             if line.startswith('start_time'):
+                lineNumber += 1
                 flag = True
                 break
         if not flag:
             print('variable name not found, please do not change the variable name in download script.')
-        date = line[32:46]        # `[32:46]` means that the 32nd through 46th characters are the values of the download script, the exact values may need to be changed depending on the actual situation
+        date = line[32:42]        # `[32:46]` means that the 32nd through 46th characters are the values of the download script, the exact values may need to be changed depending on the actual situation
         file.close()
         output = 'done'
         while True:
@@ -24,7 +26,7 @@ def run_and_monitor(script_path):
                 print(1, output)
                 date = output[16:30]
                 newC = f"start_time = datetime.strptime('{date}', '%Y%m%d_%H_%M')"    # Due to the different file you want to download, the date here may need to be changed
-                modify_script_line(script_path, 17, newC)        # `17` here means the time needed to be rewritten is on line 17
+                modify_script_line(script_path, lineNumber, newC)        # `17` here means the time needed to be rewritten is on line 17
             print(output)
             if return_code is not None:
                 print(date)
