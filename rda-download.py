@@ -15,7 +15,8 @@ import random
 
 
 start_time = datetime.strptime('YYYYMMDD_HH_MM', '%Y%m%d_%H_%M')    # start time, format: YYYYMMDD_HH_MM, may be changed in different situations
-end_time = datetime(2023, 12, 31, 0, 0, 0)
+# PLEASE DO NOT CHANGE THE VARIABLE NAME
+end_time = datetime(2023, 12, 31, 0, 0, 0)  # end time, format: YYYYMMDD_HH_MM, may be changed in different situations
 time_list = (start_time + timedelta(hours=6*i) for i in range(int((end_time - start_time).total_seconds()) // (3600*6 + 1)))    # steps in ds083.2 is 6 hours, may be changed in different situations 
 time_list_formatted = (time.strftime('%Y%m%d_%H_%M') for time in time_list)
 filelist = (f'{url}{time[0:4]}/{time[0:4]}.{time[4:6]}/fnl_{time}.grib2' for time in time_list_formatted)    # EXAMPLE url, may be changed in different situations

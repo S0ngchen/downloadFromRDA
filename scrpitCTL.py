@@ -7,7 +7,14 @@ def run_and_monitor(script_path):
         process = subprocess.Popen(['python', script_path], stdout=subprocess.PIPE, text=True)
         with open(script_path, 'r') as file:
             lines = file.readlines()
-        date = lines[16][32:46]        # `[32:46]` means that the 32nd through 46th characters are the values of the download script, the exact values may need to be changed depending on the actual situation 
+        flag = False
+        for line in lines:
+            if line.startswith('start_time'):
+                flag = True
+                break
+        if not flag:
+            print('variable name not found, please do not change the variable name in download script.')
+        date = line[32:46]        # `[32:46]` means that the 32nd through 46th characters are the values of the download script, the exact values may need to be changed depending on the actual situation
         file.close()
         output = 'done'
         while True:
