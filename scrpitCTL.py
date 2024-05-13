@@ -1,5 +1,6 @@
 import subprocess
 import time
+import re
 
 
 def run_and_monitor(script_path):
