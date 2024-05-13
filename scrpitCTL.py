@@ -17,9 +17,12 @@ def run_and_monitor(script_path):
                 break
         if not flag:
             print('variable name not found, please do not change the variable name in download script.')
-        date = line[32:42]        # `[32:46]` means that the 32nd through 46th characters are the values of the download script, the exact values may need to be changed depending on the actual situation
-        file.close()
+        patten = r"(['\"])(\d+)(['\"])"
+        date = re.findall(patten, line)
+        date = date[0][1]
         output = 'done'
+
+        
         while True:
             return_code = process.poll()
             output = process.stdout.readline().strip()
