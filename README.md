@@ -1,5 +1,5 @@
-## DOWNLOAD DATAS FROM UCRA
-## 从UCRA下载数据的脚本
+## DOWNLOAD DATAS FROM UCAR
+## 从UCAR下载数据的脚本
 When downloading data from rda.ucar.edu., the download script will be always stoped downloading due to various reasons. This script ensure continuous and efficient downloading of data. It can automatically resubmit the download request when access is denied and download automaticly.
 
 The downloading script: rda-download.py is also provided. modifying the commented content to download automaticly.
